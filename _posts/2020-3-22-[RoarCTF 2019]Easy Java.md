@@ -24,11 +24,12 @@ tags:
 思考以及查看了表哥们的记录，发现知识点在于java源码泄露涉及到WEB-INF/web.xml泄露，通过这个下载点去下载java的源码文件，接着审计。
 - 3、由于学习过java，复习了一下java文件结构：
  WEB-INF主要包含一下文件或目录：
-/WEB-INF/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。
- /WEB-INF/classes/：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中
- /WEB-INF/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件
- /WEB-INF/src/：源码目录，按照包名结构放置各个java文件。
- /WEB-INF/database.properties：数据库配置文件
+> /WEB-INF/web.xml：Web应用程序配置文件，描述了 servlet 和其他的应用组件配置及命名规则。
+> /WEB-INF/classes/：含了站点所有用的 class 文件，包括 servlet class 和非servlet class，他们不能包含在 .jar文件中
+> /WEB-INF/lib/：存放web应用需要的各种JAR文件，放置仅在这个应用中要求使用的jar文件,如数据库驱动jar文件
+> /WEB-INF/src/：源码目录，按照包名结构放置各个java文件。
+> /WEB-INF/database.properties：数据库配置文件
+
 漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码 
 构造payload：filename=/WEB-INF/web.xml：
 ![](https://wx4.sinaimg.cn/mw1024/007IMTbqgy1gd3leibn1ej30i60l3jsv.jpg)
