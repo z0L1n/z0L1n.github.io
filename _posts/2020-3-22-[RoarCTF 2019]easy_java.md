@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      [RoarCTF 2019]easy java
+title:      [RoarCTF 2019]easy_java
 subtitle:   java源码泄露利用
 date:       2020-03-23
 author:     z0L1n
