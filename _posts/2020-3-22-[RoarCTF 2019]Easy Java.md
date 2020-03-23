@@ -1,14 +1,13 @@
 ---
 layout:     post
-title:      [RoarCTF 2019]Easy Java
-subtitle:   java源码泄露
-date:       2020-3-22
+title:      [RoarCTF 2019]easy java
+subtitle:   java源码泄露利用
+date:       2020-03-23
 author:     z0L1n
-header-img: img/post-bg-ios9-web.jpg
-catalog: 	 true
+header-img: img/post-bg-re-vs-ng2.jpg
+catalog: true
 tags:
     - 源码泄露
-    - 任意下载
 ---
 
 # [RoarCTF 2019]Easy Java
