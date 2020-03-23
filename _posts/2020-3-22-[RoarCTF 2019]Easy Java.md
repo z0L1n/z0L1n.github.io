@@ -12,10 +12,13 @@ tags:
 ---
 
 #[RoarCTF 2019]Easy Java
+
 ##0x题解
+
 ###依照正常套路吧先来个题解：
+
 - 1、首先我们可以看得的是一个初始页面带有登陆框还有个help链接，点了之后发现没有该文件，首先来个万能密码，以及sql注入简单检测一下，再进行过滤词筛选，发现全部都只返回一个结果！！！！！所以很可能这是假的！！！：
-![1](https://github.com/z0L1n/z0L1n.github.io/blob/master/img/easyjava1.png "1")
+![](https://wx4.sinaimg.cn/mw1024/007IMTbqgy1gd3ledrir5j30hn0c70sp.jpg)
 - 2、回想起刚刚的help链接的url：/Download?filename=help.docx
 似乎是下载的意思，但是我为什么没有下载？？？？？查了一下，get请求参数有限制，一般都使用post请求下载，所以抓包发post数据，成功下载help.docx文件，但是内容没有意义。
 思考以及查看了表哥们的记录，发现知识点在于java源码泄露涉及到WEB-INF/web.xml泄露，通过这个下载点去下载java的源码文件，接着审计。
@@ -28,7 +31,7 @@ tags:
  /WEB-INF/database.properties：数据库配置文件
 漏洞检测以及利用方法：通过找到web.xml文件，推断class文件的路径，最后直接class文件，在通过反编译class文件，得到网站源码 
 构造payload：filename=/WEB-INF/web.xml：
-![2](https://github.com/z0L1n/z0L1n.github.io/blob/master/img/easyjava2.png "2")
+![](https://wx4.sinaimg.cn/mw1024/007IMTbqgy1gd3leibn1ej30i60l3jsv.jpg)
 
 FlagController类里面包含flag信息，然后构造payload：filename=/WEB-INF/classes/com/wm/ctf/FlagController.class
 下载后查看源码发现base64字符串解密后get到flag。
