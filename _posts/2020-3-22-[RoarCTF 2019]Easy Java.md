@@ -11,11 +11,11 @@ tags:
     - 任意下载
 ---
 
-#[RoarCTF 2019]Easy Java
+# [RoarCTF 2019]Easy Java
 
-##0x题解
+## 0x题解
 
-###依照正常套路吧先来个题解：
+### 依照正常套路吧先来个题解：
 
 - 1、首先我们可以看得的是一个初始页面带有登陆框还有个help链接，点了之后发现没有该文件，首先来个万能密码，以及sql注入简单检测一下，再进行过滤词筛选，发现全部都只返回一个结果！！！！！所以很可能这是假的！！！：
 ![](https://wx4.sinaimg.cn/mw1024/007IMTbqgy1gd3ledrir5j30hn0c70sp.jpg)
@@ -35,7 +35,7 @@ tags:
 
 FlagController类里面包含flag信息，然后构造payload：filename=/WEB-INF/classes/com/wm/ctf/FlagController.class
 下载后查看源码发现base64字符串解密后get到flag。
-##0x思考与总结
+## 0x思考与总结
 >题目解完了，老惯例来个总结：在这题目中，由于下载点没有做相应的限制机制，导致源码泄露的问题出现，遇到java题目可以考虑源码泄露的利用。
 get请求和post都能下载文件，但是get请求对参数有限制，一旦参数过多可能导致功能报错。
 学习到的知识点：
