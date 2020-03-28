@@ -49,9 +49,9 @@ position中有个选项：attack type，里面有四种模式：
 - 在这个模块中，我们首先可以设定的是payloadset，数量类型、
 - 然后对于payload type：我经常使用的是simple list简单字典，numbers或者dates生成相应类型的payload，对于其他类型，简单学习一下
 比如 runtime file：运行文件、custom iterator：自定义迭代器、brute forcer：暴力破解、recursive grep：递归查询
-**payload options：**这个模块的内容会随着payload type的变更而改变，在使用过程中去学习
-**payload processing：**此模块可以添加规则对生成的payload进行编码、加密、截取等操作
-**options：**在此模块中设置我们发送请求的线程、重传次数、以及超时重试等，此外如果我们对于响应中的内容有查找提取的需求，可以在grep里面去设置，
+`payload options：`这个模块的内容会随着payload type的变更而改变，在使用过程中去学习
+`payload processing：`此模块可以添加规则对生成的payload进行编码、加密、截取等操作
+`options：`在此模块中设置我们发送请求的线程、重传次数、以及超时重试等，此外如果我们对于响应中的内容有查找提取的需求，可以在grep里面去设置，
 另外对于重定向的处理，在redirections里面可以设置。
 ![5](https://wx4.sinaimg.cn/mw690/007IMTbqgy1gd9zs39g1pj314h0op77s.jpg)
 
