@@ -23,6 +23,7 @@ tags:                               #标签
 
 ## 0x01 功能解析和学习：
 - 1、proxy功能：
+
 ![1](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gd9zrdf8a8j318g0smgrq.jpg)
 >
 首先我们可以看到代理监听，一般来说监听我们浏览器的8080端口，用burpsuite配合火狐使用，设置好火狐的代理即可在intercept模块里面开启侦听拦截。
@@ -31,7 +32,9 @@ tags:                               #标签
 >
 在拦截到请求包之后，我们有三个选项，分别是`forward`、`drop`、`action`，点击`forward`可以让请求前进，发送到服务器，点击`drop`可以丢弃该请求包，
 如果我们对请求包有其他操作可以右键或者点击`action`进行。该模块内容比较掌握。
+
 - 2、intruder功能：
+
 ![3](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gd9zro4l0vj31770iitc3.jpg)
 >
 在target模块是设置我们的host以及port，选择是否为https。
@@ -53,9 +56,11 @@ position中有个选项：attack type，里面有四种模式：
 `payload processing：`此模块可以添加规则对生成的payload进行编码、加密、截取等操作
 `options：`在此模块中设置我们发送请求的线程、重传次数、以及超时重试等，此外如果我们对于响应中的内容有查找提取的需求，可以在grep里面去设置，
 另外对于重定向的处理，在redirections里面可以设置。
+
 ![5](https://wx4.sinaimg.cn/mw690/007IMTbqgy1gd9zs39g1pj314h0op77s.jpg)
 
 - 3、repeater模块：
+
 ![6](https://wx1.sinaimg.cn/mw690/007IMTbqgy1gd9zsnla02j317e0kln19.jpg)
 
 >我们拦截的请求发送到该模块的时候就可以手动修改的去触发单独的http请求探测漏洞，并分析响应，使用很简单。
@@ -70,12 +75,16 @@ go：当我们微调好之后，点击go就可以发出请求，也可以点击c
 我们可以转发带有token或者参数的抓取历史到该模块下，然后点击config选中token或者参数的值然后进行抓取，也就是点击start live capture，当数据量足够大时
 我们可以立即分析，也可以把获取的数据保存下来，在manual load模块中加载分析，分析时我么可以在 analysis options中进行一些设定，因为日常比较少用，就先
 了解熟悉一下使用思路。
+
 - 5、decoder模块：
+
 ![8](https://wx3.sinaimg.cn/mw690/007IMTbqgy1gd9zsxpeq7j317o0n6gnz.jpg)
 
 >此模块功能比较简单：两个内容框分别为输入域和输出域，在右边侧栏为编码解码模块，根据实际需要我们可以选择编码、解码、散列这三个选项，基本编码选项支持
 html/base64/ascii/gzip/进制转换，以及SHA/SHA-224/SHA-256/md5等，此功能一个特色就是，我们可以对同一数据进行多次的编码解码的转换。
+
 - 6、comparer模块：
+
 ![8](https://wx1.sinaimg.cn/mw690/007IMTbqgy1gd9zt1medrj317f0m73zs.jpg)
 
 >该模块主要提供一个可视化的差异对比，对比分析两个数据之间的区别、例如分析用户登陆成功与失败时，服务端反馈结果的差异，还有利用intruder攻击时，不同payload的不同响应差别
