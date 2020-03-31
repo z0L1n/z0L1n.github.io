@@ -1,6 +1,6 @@
 ---
 layout:     post                    # 使用的布局（不需要改）
-title:      csrf和ssrf               # 标题 
+title:      powershell笔记整理               # 标题 
 subtitle:   回顾整理一下之前的学习笔记
 date:       2020-03-30              # 时间
 author:     z0L1n                      # 作者
