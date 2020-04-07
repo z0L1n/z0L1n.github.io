@@ -30,10 +30,10 @@ tags:                               #标签
 - 5、password参数的内容需要经过反序列化，然后输出，自然而然涉及到类的序列化，很有可能useless.php里面的内容和序列化有关。
 接下来开始尝试构造url：/?text=data://text/plain;base64,d2VsY29tZSB0byB0aGUgempjdGY=&file=php://filter/read=convert.base64-encode/resource=useless.php
 
-![](https://wx3.sinaimg.cn/mw1024/007IMTbqgy1gd45yf830rj30sv052mx7.jpg)
+![](https://github.com/z0L1n/pic/blob/master/2002/pic/007IMTbqgy1gd45yf830rj30sv052mx7.jpg?raw=true)
 
 获取到一串base64代码，解密得：
-![](https://wx2.sinaimg.cn/mw1024/007IMTbqgy1gd45yh5u6dj30jp0d6aag.jpg)
+![](https://github.com/z0L1n/pic/blob/master/2002/pic/007IMTbqgy1gd45yh5u6dj30jp0d6aag.jpg?raw=true)
 
 这里涉及到类Flag，含有属性file，以及方法输出file的文件内容，题目提醒flag.php,结合上面的password反序列化后，输出password结构，我们可以将$file=flag.php,然后序列化构造后，传递给password后，反序列化时能获取flag.php的内容：
 构造payload：
@@ -41,10 +41,10 @@ tags:                               #标签
 
 ！！！此时发现页面和第一次构造的内容相当，究竟是什么问题呢，在文件包含时已经输出可能导致后续代码未执行就退出了，所以=把file后面的参数修改成file=useless.php进行尝试：
 
-![](https://wx4.sinaimg.cn/mw1024/007IMTbqgy1gd45ykjgmhj30ct08dt8n.jpg)
+![](https://github.com/z0L1n/pic/blob/master/2002/pic/007IMTbqgy1gd45ykjgmhj30ct08dt8n.jpg?raw=true)
 
 该页面没有什么，神仙右键查看源码看一看：
-![](https://wx1.sinaimg.cn/mw1024/007IMTbqgy1gd45yn4nvmj30k008wjru.jpg)
+![](https://github.com/z0L1n/pic/blob/master/2002/pic/007IMTbqgy1gd45yn4nvmj30k008wjru.jpg?raw=true)
 get到flag题目完成。
 
 
