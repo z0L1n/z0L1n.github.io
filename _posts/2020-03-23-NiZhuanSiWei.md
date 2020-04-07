@@ -18,7 +18,7 @@ tags:                               #标签
 >先说说题解：
 首先打开页面，呈现出来的是一串php代码，我们一起来看看：
 
-![](https://wx2.sinaimg.cn/mw1024/007IMTbqgy1gd45ydnz25j30mn0d1756.jpg)
+![](https://github.com/z0L1n/pic/blob/master/2002/pic/007IMTbqgy1gd45ydnz25j30mn0d1756.jpg?raw=true)
 
 **信息收集**
 - 1、url可以包含三个get参数：text、file、password
