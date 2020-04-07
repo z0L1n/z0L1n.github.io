@@ -51,11 +51,11 @@ position中有个选项：attack type，里面有四种模式：
 **payloads：**
 - 在这个模块中，我们首先可以设定的是payloadset，数量类型、
 - 然后对于payload type：我经常使用的是simple list简单字典，numbers或者dates生成相应类型的payload，对于其他类型，简单学习一下
-比如 runtime file：运行文件、custom iterator：自定义迭代器、brute forcer：暴力破解、recursive grep：递归查询
-`payload options：`这个模块的内容会随着payload type的变更而改变，在使用过程中去学习
-`payload processing：`此模块可以添加规则对生成的payload进行编码、加密、截取等操作
-`options：`在此模块中设置我们发送请求的线程、重传次数、以及超时重试等，此外如果我们对于响应中的内容有查找提取的需求，可以在grep里面去设置，
-另外对于重定向的处理，在redirections里面可以设置。
+比如 runtime file：运行文件、custom iterator：自定义迭代器、brute forcer：暴力破解、recursive grep：递归查询  
+`payload options：`这个模块的内容会随着payload type的变更而改变，在使用过程中去学习  
+`payload processing：`此模块可以添加规则对生成的payload进行编码、加密、截取等操作  
+`options：`在此模块中设置我们发送请求的线程、重传次数、以及超时重试等，此外如果我们对于响应中的内容有查找提取的需求，可以在grep里面去设置，  
+另外对于重定向的处理，在redirections里面可以设置。  
 
 ![5](https://github.com/z0L1n/pic/blob/master/2002/bp/5.jpg?raw=true)
 
@@ -63,11 +63,11 @@ position中有个选项：attack type，里面有四种模式：
 
 ![6](https://github.com/z0L1n/pic/blob/master/2002/bp/6.jpg?raw=true)
 
->我们拦截的请求发送到该模块的时候就可以手动修改的去触发单独的http请求探测漏洞，并分析响应，使用很简单。
+>我们拦截的请求发送到该模块的时候就可以手动修改的去触发单独的http请求探测漏洞，并分析响应，使用很简单。  
 go：当我们微调好之后，点击go就可以发出请求，也可以点击cancel取消。页面中<>这两个箭头的功能是返回上一次和下一个操作，在最底部我们可以搜索条件，可以用
-正则表达式，底部右边显示匹配结果数。
+正则表达式，底部右边显示匹配结果数。  
 在raw、params、headers、hex、render中我们可以相应的看纯文本、参数、请求响应头、十六进制数据以及对应的页面，使用简单，非常方便的就可以找到我们
-想要的数据。
+想要的数据。  
 - 4、sequence模块：
 
 ![7](https://github.com/z0L1n/pic/blob/master/2002/bp/7.jpg?raw=true)
@@ -93,8 +93,9 @@ html/base64/ascii/gzip/进制转换，以及SHA/SHA-224/SHA-256/md5等，此功�
 
 
 ## 0x02 burp使用心得：
-对于web应用来说，用的非常多的就是它了，非常好的一个工具，基本能满足我们的目前需求了，在专业版上面，还有漏洞检测功能，
-更大程度上为我们的测试提供了便利，最主要的还是拦截和攻击模块，经常使用。一般就是抓包，微调测试参数值或者直接上intruder进行枚举攻击测试。
+对于web应用来说，用的非常多的就是它了，非常好的一个工具，基本能满足我们的目前需求了，在专业版上面，还有漏洞检测功能，  
+更大程度上为我们的测试提供了便利，最主要的还是拦截和攻击模块，经常使用。一般就是抓包，微调测试参数值或者直接上intruder进行枚举攻击测试。  
+至于burp和其他软件的联动，会在以后的审计练习上实操，是个很好的挖掘姿势。  
 
 
 
